@@ -13,13 +13,12 @@ const prismVolume = function(height, width, depth) {
 };
 
 const totalVolume = function(solids) {
-  const fx = {
-    sphere: sphereVolume,
-    cone: coneVolume,
-    prism: prismVolume
-  };
-
-  return solids.reduce((acc, { radius, height, depth, type }) => {
-    return (acc += fx[type](radius, height, depth, type));
+  return solids.reduce((acc, {radius, height, width, depth, type}) => {
+    switch(type) {
+      case 'sphere': return acc += sphereVolume(radius);
+      case 'cone': return acc += coneVolume(radius, height);
+      case 'prism': return acc += prismVolume(height, width, depth);
+      default: return acc;
+    }
   }, 0);
 };
